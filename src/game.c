@@ -33,6 +33,14 @@ int ant_run(void) {
    if (ant_rcfg_mode & RC_CLIENT) {
       ant_log("client requested");
       ant_client_start();
+
+      /* check if we're running standalone */
+      if (ant_rcfg_mode & RC_SERVER) {
+         ant_log("in process server now exiting");
+
+         /* let the server know that we don't need him around anymore */
+         ant_server_end();
+      }
    }
 
    ant_log("antares run has finished");
