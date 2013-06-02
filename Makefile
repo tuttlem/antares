@@ -5,6 +5,7 @@ CC := clang
 SRCDIR := src
 BUILDDIR := build
 CFLAGS := -g -Wall
+LNFLAGS := -lncurses
 TARGET := antares
 
 SRCEXT := c
@@ -13,7 +14,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
 
 $(TARGET): $(OBJECTS)
-	@echo " Linking..."; $(CC) $^ -o $(TARGET)
+	@echo " Linking..."; $(CC) $(LNFLAGS) $^ -o $(TARGET)
 	@mkdir dist
 	@mv $(TARGET) dist/$(TARGET)
 

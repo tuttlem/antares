@@ -21,8 +21,9 @@ void _ced_log(FILE *file, const char *fmt, ...) {
   vfprintf(file, fmt, ap);
   va_end(ap);
 
-  /* bump to the next line */
+  /* bump to the next line and flush the stream */
   fprintf(file, "\n");
+  fflush(file);
 }
 
 
