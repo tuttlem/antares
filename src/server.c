@@ -10,16 +10,26 @@ void daemon_signalhandler(int sig);
 /** Runs the actual server process itself */
 void ant_server_run(void) {
 
+   ant_log("server process running");
+
    while (ant_server_running) {
 
    }
 
+   ant_log("server process leaving");
+
+   /* explicitly exit the proces here otherwise orphaned antares
+    * carcasses litter the process table */
+   exit(0);
 }
 
 /** Ends the running server */
 void ant_server_end(void) {
+
+   ant_log("killing server pid %d", ant_server_pid);
    /* sigterm the server pid */
    kill(ant_server_pid, SIGTERM);
+
 }
 
 /** */
@@ -32,6 +42,8 @@ int ant_server_start(void) {
 
    /* start the server in the child */
    if (pid == 0) {
+
+      ant_log("preparing server to run");
 
       /* attach the signal handlers now */
       signal(SIGCHLD, SIG_IGN);
@@ -47,6 +59,9 @@ int ant_server_start(void) {
       /* run the server process */
       ant_server_run();
    } else {
+
+      ant_log("server process is %d", pid);
+
       ant_server_pid = pid;
    }
 
@@ -114,14 +129,18 @@ int ant_server_startd(void) {
 /** */
 void daemon_signalhandler(int sig) {
 
+   ant_log("server received signal %d", sig);
+
    switch (sig) {
 
       case SIGHUP:
+         ant_log("handling hangup signal");
          /* this should just refresh configs and restart */
          ant_server_running = 0;
          break;
 
       case SIGTERM:
+         ant_log("handling term signal");
          /* mark the server as no longer running */
          ant_server_running = 0;
          break;

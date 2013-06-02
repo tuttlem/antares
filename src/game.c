@@ -5,12 +5,16 @@
 int ant_setup(void) {
 
    /* make sure the configuration validates */
-   if (ant_rcfg_validate() != 0)
+   if (ant_rcfg_validate() != 0) {
+      ant_log("invalid run configuration detected");
       return 1;
+   }
 
    /* pre-setup before we start to initialize the game */
-   if (ant_rcfg_setup() != 0)
+   if (ant_rcfg_setup() != 0) {
+      ant_log("failed to complete run configuration setup");
       return 2;
+   }
 
    return 0;
 }

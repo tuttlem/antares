@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <signal.h>
 
+#include "log.h"
+
 /** Starts the server as a forked process */
 int ant_server_start(void);
 

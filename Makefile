@@ -1,7 +1,7 @@
 # Generic Makefile for compiling a simple executable.
 #
 #
-CC := clang
+CC := gcc
 SRCDIR := src
 BUILDDIR := build
 CFLAGS := -g -Wall
@@ -15,7 +15,7 @@ DEPS := $(OBJECTS:.o=.deps)
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."; $(CC) $(LNFLAGS) $^ -o $(TARGET)
-	@mkdir dist
+	@mkdir -p dist
 	@mv $(TARGET) dist/$(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)

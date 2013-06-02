@@ -84,6 +84,12 @@ void ant_rcfg_from_commandline(int argc, char* argv[]) {
             abort();
       }
    } while (next_option != -1);
+
+   /* for the convenience of running at the command line, sending
+    * in no run mode should just run both the client and server */
+   if (ant_rcfg_mode == RC_NONE) {
+      ant_rcfg_mode = RC_STANDALONE;
+   }
 }
 
 /**
@@ -117,7 +123,7 @@ int ant_rcfg_validate(void) {
 int ant_rcfg_setup(void) {
 
    /* open the logfile if specified, otherwise /dev/null */
-   if (ant_rcfg_logfile != NULL) {
+   if (strlen(ant_rcfg_logfile) > 0) {
       if ((ant_rcfg_log = fopen(ant_rcfg_logfile, "a")) == NULL) {
          return -1;
       }
